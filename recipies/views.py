@@ -13,11 +13,9 @@ def home(request):
     r = r.json()
     r = r['recipes']
     for index, item in enumerate(r):
-        titles.append(r[index]['title'])
         if 'image' in r[index]:
+            titles.append(r[index]['title'])
             images.append(r[index]['image'])
-        else:
-            images.append()
     items = zip(titles, images)
     context = {'items': items}
     return render(request, 'recipies/home.html', context)
