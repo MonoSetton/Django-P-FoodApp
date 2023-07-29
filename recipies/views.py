@@ -27,16 +27,16 @@ def detail_recipes(request, pk):
     url = 'https://api.spoonacular.com/recipes/'
     r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&includeNutrition=false')
     context = {}
-    return render(request, 'recipes/detail_recipes.html', context)
+    return render(request, 'recipies/detail_recipes.html', context)
 
 
 def ingredients_recipes(request):
     context = {}
-    return render(request, 'recipes/recipies_from_ingredients.html', context)
+    return render(request, 'recipies/recipies_from_ingredients.html', context)
 
 
 def requirements_recipes(request):
     context = {}
-    return render(request, 'recipes/recipies_from_requirements.html', context)
+    return render(request, 'recipies/recipies_from_requirements.html', context)
 
 
