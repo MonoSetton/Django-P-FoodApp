@@ -20,7 +20,7 @@ def home(request):
             ids.append(r[index]['id'])
     items = zip(titles, images, ids)
     context = {'items': items}
-    return render(request, 'recipies/home.html', context)
+    return render(request, 'recipes/home.html', context)
 
 
 def detail_recipes(request, pk):
@@ -33,11 +33,11 @@ def detail_recipes(request, pk):
 
 def ingredients_recipes(request):
     context = {}
-    return render(request, 'recipies/recipies_from_ingredients.html', context)
+    return render(request, 'recipes/recipes_from_ingredients.html', context)
 
 
 def requirements_recipes(request):
     context = {}
-    return render(request, 'recipies/recipies_from_requirements.html', context)
+    return render(request, 'recipes/recipes_from_requirements.html', context)
 
 
