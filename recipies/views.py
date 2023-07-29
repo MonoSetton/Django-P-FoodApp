@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 
 
@@ -26,8 +26,9 @@ def home(request):
 def detail_recipes(request, pk):
     url = 'https://api.spoonacular.com/recipes/'
     r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&includeNutrition=false')
-    context = {}
-    return render(request, 'recipies/detail_recipes.html', context)
+    r = r.json()
+    sourceURL = r['sourceUrl']
+    return redirect(sourceURL)
 
 
 def ingredients_recipes(request):
