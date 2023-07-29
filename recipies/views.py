@@ -8,26 +8,35 @@ api_key = '99aa443bda864d698ad5ac6db226c843'
 def home(request):
     titles = []
     images = []
+    ids = []
     url = "https://api.spoonacular.com/recipes/random"
-    r = requests.get(f'{url}?tags=lunch&number=9&apiKey={api_key}')
+    r = requests.get(f'{url}?apiKey={api_key}&tags=lunch&number=9')
     r = r.json()
     r = r['recipes']
     for index, item in enumerate(r):
         if 'image' in r[index]:
             titles.append(r[index]['title'])
             images.append(r[index]['image'])
-    items = zip(titles, images)
+            ids.append(r[index]['id'])
+    items = zip(titles, images, ids)
     context = {'items': items}
     return render(request, 'recipies/home.html', context)
 
 
-def ingredients_recipies(request):
+def detail_recipes(request, pk):
+    url = 'https://api.spoonacular.com/recipes/'
+    r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&includeNutrition=false')
     context = {}
-    return render(request, 'recipies/recipies_from_ingredients.html', context)
+    return render(request, 'recipes/detail_recipes.html', context)
 
 
-def requirements_recipies(request):
+def ingredients_recipes(request):
     context = {}
-    return render(request, 'recipies/recipies_from_requirements.html', context)
+    return render(request, 'recipes/recipies_from_ingredients.html', context)
+
+
+def requirements_recipes(request):
+    context = {}
+    return render(request, 'recipes/recipies_from_requirements.html', context)
 
 
