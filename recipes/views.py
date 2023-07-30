@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import InsertIngredients
+from .forms import InsertIngredients, InsertRequirements
 import requests
 
 
@@ -24,7 +24,8 @@ def home(request):
 
 
 def detail_recipes(request, pk):
-    r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&includeNutrition=false').json()
+    r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&'
+                     f'includeNutrition=false').json()
     sourceURL = r['sourceUrl']
     return redirect(sourceURL)
 
@@ -34,7 +35,9 @@ def ingredients_recipes(request):
         titles, images, ids = [], [], []
         conditionals = 'number=6&ranking=1&ignorePantry=false'
         ingredients = request.POST.get('ingredients')
-        r = requests.get(f'{url}/findByIngredients?apiKey={api_key}&{conditionals}&ingredients={ingredients}').json()
+        r = requests.get(f'{url}/findByIngredients?apiKey={api_key}&'
+                         f'{conditionals}&'
+                         f'ingredients={ingredients}').json()
         for index, item in enumerate(r):
             titles.append(r[index]['title'])
             images.append(r[index]['image'])
@@ -49,7 +52,24 @@ def ingredients_recipes(request):
 
 
 def requirements_recipes(request):
-    context = {}
-    return render(request, 'recipes/recipes_from_requirements.html', context)
+    if request.method == 'POST':
+        titles, images, ids = [], [], []
+        r = requests.get(f'{url}/findByNutrients?apiKey={api_key}&'
+                         f'minCarbs={request.POST.get("minCarbs")}&maxCarbs={request.POST.get("maxCarbs")}&'
+                         f'minProtein={request.POST.get("minProtein")}&maxProtein={request.POST.get("maxProtein")}&'
+                         f'minCalories={request.POST.get("minCalories")}&maxCalories={request.POST.get("maxCalories")}&'
+                         f'minFat={request.POST.get("minFat")}&maxFat={request.POST.get("maxFat")}&'
+                         f'number=9&random=true').json()
+        for index, item in enumerate(r):
+            titles.append(r[index]['title'])
+            images.append(r[index]['image'])
+            ids.append(r[index]['id'])
+        items = zip(titles, images, ids)
+        context = {'items': items}
+        return render(request, 'recipes/recipes_from_requirements.html', context)
+    else:
+        form = InsertRequirements()
+        context = {'form': form}
+        return render(request, 'recipes/insert_requirements.html', context)
 
 
