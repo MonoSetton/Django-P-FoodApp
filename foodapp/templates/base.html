@@ -160,6 +160,11 @@
           <ul class="list-unstyled">
             <li><a href="{% url 'insert_ingredients'  %}" class="text-white">Insert ingredients</a></li>
             <li><a href="{% url 'insert_requirements'  %}" class="text-white">Requirements Recipes</a></li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'login' %}">Logout</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>

@@ -2,12 +2,12 @@
 {% block title %}Sign Up{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-
-<form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <p>Login to existing account <a href="{% url 'login' %}">here</a></p>
-    <button type="submit" class="btn btn-success">Register</button>
-</form>
-
+<div class="py-5 bg-body-tertiary">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <p>Login to existing account <a href="{% url 'login' %}">here</a></p>
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+</div>
 {% endblock %}
