@@ -8,9 +8,7 @@ url = "https://api.spoonacular.com/recipes"
 
 
 def home(request):
-    titles = []
-    images = []
-    ids = []
+    titles, images, ids, readyInMinutes, servings = [], [], [], [], []
     r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=9').json()
     r = r['recipes']
     for index, item in enumerate(r):
@@ -18,7 +16,9 @@ def home(request):
             titles.append(r[index]['title'])
             images.append(r[index]['image'])
             ids.append(r[index]['id'])
-    items = zip(titles, images, ids)
+            readyInMinutes.append(r[index]['readyInMinutes'])
+            servings.append(r[index]['servings'])
+    items = zip(titles, images, ids, readyInMinutes, servings)
     context = {'items': items}
     return render(request, 'recipes/home.html', context)
 

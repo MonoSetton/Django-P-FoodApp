@@ -6,7 +6,7 @@
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for title, image, id in items %}
+        {% for title, image, id, minutes, servings in items %}
           <div class="col">
             <div class="card shadow-sm">
               <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" ><img src="{{ image }}" class="img-fluid" alt="Responsive image">
@@ -15,8 +15,8 @@
                 </div>
             </a>
             <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              <span class="btn btn-sm btn-outline-secondary">{{ servings }} servings</span>
+              <span class="btn btn-sm btn-outline-secondary">{{ minutes }} minutes to prepare</span>
             </div>
           </div>
         </div>
