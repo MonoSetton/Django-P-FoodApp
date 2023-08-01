@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from .forms import InsertIngredients, InsertRequirements
 import requests
+from django.contrib.auth.decorators import login_required
 
 
 api_key = '99aa443bda864d698ad5ac6db226c843'
 url = "https://api.spoonacular.com/recipes"
 
 
+@login_required(login_url='/login')
 def home(request):
     titles, images, ids, readyInMinutes, servings = [], [], [], [], []
     r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=9').json()
@@ -23,6 +25,7 @@ def home(request):
     return render(request, 'recipes/home.html', context)
 
 
+@login_required(login_url='/login')
 def detail_recipes(request, pk):
     r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&'
                      f'includeNutrition=false').json()
@@ -30,6 +33,7 @@ def detail_recipes(request, pk):
     return redirect(sourceURL)
 
 
+@login_required(login_url='/login')
 def ingredients_recipes(request):
     if request.method == 'POST':
         titles, images, ids = [], [], []
@@ -51,6 +55,7 @@ def ingredients_recipes(request):
         return render(request, 'recipes/insert_ingredients.html', context)
 
 
+@login_required(login_url='/login')
 def requirements_recipes(request):
     if request.method == 'POST':
         titles, images, ids = [], [], []
