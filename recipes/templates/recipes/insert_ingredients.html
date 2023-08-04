@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="py-5 bg-body-tertiary">
+    <p>Insert ingredients in english and separate them with ',' (e.g.:eggs, milk, pasta).</p>
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}

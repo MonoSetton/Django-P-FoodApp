@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import InsertIngredients, InsertRequirements
+from .forms import InsertIngredients
 import requests
 from django.contrib.auth.decorators import login_required
+from .models import Nutrient
 
 
 api_key = '99aa443bda864d698ad5ac6db226c843'
@@ -59,12 +60,12 @@ def ingredients_recipes(request):
 def requirements_recipes(request):
     if request.method == 'POST':
         titles, images, ids = [], [], []
-        r = requests.get(f'{url}/findByNutrients?apiKey={api_key}&'
-                         f'minCarbs={request.POST.get("minCarbs")}&maxCarbs={request.POST.get("maxCarbs")}&'
-                         f'minProtein={request.POST.get("minProtein")}&maxProtein={request.POST.get("maxProtein")}&'
-                         f'minCalories={request.POST.get("minCalories")}&maxCalories={request.POST.get("maxCalories")}&'
-                         f'minFat={request.POST.get("minFat")}&maxFat={request.POST.get("maxFat")}&'
-                         f'number=9&random=true').json()
+        query = ''
+        for key, value in request.POST.items():
+            if key.startswith('selected_option_'):
+                key = key.replace('selected_option_', '')
+                query += f'&{key}={value}'
+        r = requests.get(f'{url}/findByNutrients?apiKey={api_key}&number=9&random=true{query}').json()
         for index, item in enumerate(r):
             titles.append(r[index]['title'])
             images.append(r[index]['image'])
@@ -73,8 +74,6 @@ def requirements_recipes(request):
         context = {'items': items}
         return render(request, 'recipes/recipes_from_requirements.html', context)
     else:
-        form = InsertRequirements()
-        context = {'form': form}
+        nutrients = Nutrient.objects.all()
+        context = {'nutrients': nutrients}
         return render(request, 'recipes/insert_requirements.html', context)
-
-

@@ -5,8 +5,45 @@
 <div class="py-5 bg-body-tertiary">
     <form method="post">
         {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-info">Add requirements</button>
+        <label for="dropdown">Select an option:</label>
+        <select id="dropdown" name="selected_option">
+            {% for item in nutrients %}
+                <option value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="add_button">Add Selected Option</button>
+        <br>
+        <div id="input_container"></div>
+        <br>
+        <input type="submit" value="Submit">
     </form>
 </div>
+<script>
+    document.getElementById("add_button").addEventListener("click", function() {
+        const dropdown = document.getElementById("dropdown");
+        const selectedOption = dropdown.value;
+        if (selectedOption) {
+            const inputContainer = document.getElementById("input_container");
+            const inputField = createInputField(selectedOption);
+            inputContainer.appendChild(inputField);
+            dropdown.remove(dropdown.selectedIndex);
+        }
+    });
+
+    function createInputField(selectedOption) {
+        const div = document.createElement("div");
+        const inputLabel = document.createElement("label");
+        inputLabel.setAttribute("for", selectedOption);
+        inputLabel.textContent = "Enter value for " + selectedOption + ":";
+        div.appendChild(inputLabel);
+
+        const inputField = document.createElement("input");
+        inputField.setAttribute("type", "text");
+        inputField.setAttribute("name", "selected_option_" + selectedOption);
+        inputField.setAttribute("id", selectedOption);
+        div.appendChild(inputField);
+
+        return div;
+    }
+</script>
 {% endblock %}
