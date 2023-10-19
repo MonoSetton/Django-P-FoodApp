@@ -3,6 +3,9 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="py-5 bg-body-tertiary">
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         <label for="dropdown">Select an option:</label>
