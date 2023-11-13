@@ -11,31 +11,6 @@ url = "https://api.spoonacular.com/recipes"
 
 @login_required(login_url='/login')
 def home(request):
-    titles, images, ids, readyInMinutes, servings = [], [], [], [], []
-    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=9').json()
-    r = r['recipes']
-    for index, item in enumerate(r):
-        if 'image' in r[index]:
-            titles.append(r[index]['title'])
-            images.append(r[index]['image'])
-            ids.append(r[index]['id'])
-            readyInMinutes.append(r[index]['readyInMinutes'])
-            servings.append(r[index]['servings'])
-    items = zip(titles, images, ids, readyInMinutes, servings)
-    context = {'items': items}
-    return render(request, 'recipes/home.html', context)
-
-
-@login_required(login_url='/login')
-def detail_recipes(request, pk):
-    r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&'
-                     f'includeNutrition=false').json()
-    sourceURL = r['sourceUrl']
-    return redirect(sourceURL)
-
-
-@login_required(login_url='/login')
-def ingredients_recipes(request):
     if request.method == 'POST':
         titles, images, ids = [], [], []
         conditionals = 'number=6&ranking=1&ignorePantry=false'
@@ -51,9 +26,28 @@ def ingredients_recipes(request):
         context = {'items': items}
         return render(request, 'recipes/recipes_from_ingredients.html', context)
     else:
+        titles, images, ids, readyInMinutes, servings = [], [], [], [], []
+        r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=9').json()
+        r = r['recipes']
+        for index, item in enumerate(r):
+            if 'image' in r[index]:
+                titles.append(r[index]['title'])
+                images.append(r[index]['image'])
+                ids.append(r[index]['id'])
+                readyInMinutes.append(r[index]['readyInMinutes'])
+                servings.append(r[index]['servings'])
+        items = zip(titles, images, ids, readyInMinutes, servings)
         form = InsertIngredients()
-        context = {'form': form}
-        return render(request, 'recipes/insert_ingredients.html', context)
+        context = {'items': items, 'form': form}
+        return render(request, 'recipes/home.html', context)
+
+
+@login_required(login_url='/login')
+def detail_recipes(request, pk):
+    r = requests.get(f'{url}/{pk}/information?apiKey={api_key}&'
+                     f'includeNutrition=false').json()
+    sourceURL = r['sourceUrl']
+    return redirect(sourceURL)
 
 
 @login_required(login_url='/login')

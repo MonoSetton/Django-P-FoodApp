@@ -158,6 +158,7 @@
         <div class="col-sm-8 offset-md-1 py-4">
           <h4>Menu</h4>
           <ul class="list-unstyled">
+            <li><a href="{% url 'insert_requirements'  %}" class="text-white">Requirements Recipes</a></li>
             {% if user.is_authenticated %}
               <li><a href="{% url 'insert_ingredients'  %}" class="text-white">Insert ingredients</a></li>
               <li><a href="{% url 'insert_requirements'  %}" class="text-white">Requirements Recipes</a></li>

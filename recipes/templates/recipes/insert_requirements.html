@@ -46,6 +46,19 @@
         inputField.setAttribute("id", selectedOption);
         div.appendChild(inputField);
 
+
+        const deleteButton = document.createElement("button");
+        deleteButton.setAttribute("type", "button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", function() {
+            div.remove();
+            const newOption = document.createElement("option");
+            newOption.value = selectedOption;
+            newOption.text = selectedOption;
+            document.getElementById("dropdown").add(newOption);
+        });
+        div.appendChild(deleteButton);
+
         return div;
     }
 </script>

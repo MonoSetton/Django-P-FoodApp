@@ -2,27 +2,34 @@
 {% block title %}Home{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for title, image, id, minutes, servings in items %}
-          <div class="col">
-            <div class="card shadow-sm">
-              <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" ><img src="{{ image }}" class="img-fluid" alt="Responsive image">
-                <div class="card-body">
-                  <p class="card-text text-center">{{ title }}</p>
-                </div>
-            </a>
-            <div class="btn-group">
-              <span class="btn btn-sm btn-outline-secondary">{{ servings }} servings</span>
-              <span class="btn btn-sm btn-outline-secondary">{{ minutes }} minutes to prepare</span>
+        <div class="py-5 bg-body-tertiary">
+            <p>Insert ingredients in english and separate them with ',' (e.g.:eggs, milk, pasta).</p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-info">Add ingredients</button>
+            </form>
+        </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for title, image, id, minutes, servings in items %}
+      <div class="col">
+        <div class="card shadow-sm">
+          <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" ><img src="{{ image }}" class="img-fluid" alt="Responsive image">
+            <div class="card-body">
+              <p class="card-text text-center">{{ title }}</p>
             </div>
+          </a>
+          <div class="btn-group">
+            <span class="btn btn-sm btn-outline-secondary">{{ servings }} servings</span>
+            <span class="btn btn-sm btn-outline-secondary">{{ minutes }} minutes to prepare</span>
           </div>
         </div>
-      {% endfor %}
+      </div>
+    {% endfor %}
     </div>
-  </div>
+    </div>
 </div>
 
 {% endblock %}
