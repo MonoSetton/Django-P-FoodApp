@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Nutrient
 
 
-api_key = '99aa443bda864d698ad5ac6db226c843'
+api_key = '6a39477e8ba44bd58cd15f4d050604a7'
 url = "https://api.spoonacular.com/recipes"
 
 
