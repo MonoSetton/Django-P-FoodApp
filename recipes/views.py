@@ -27,7 +27,7 @@ def home(request):
         return render(request, 'recipes/recipes_from_ingredients.html', context)
     else:
         titles, images, ids, readyInMinutes, servings = [], [], [], [], []
-        r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=9').json()
+        r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=1').json()
         r = r['recipes']
         for index, item in enumerate(r):
             titles.append(r[index]['title'])
@@ -35,7 +35,7 @@ def home(request):
             readyInMinutes.append(r[index]['readyInMinutes'])
             servings.append(r[index]['servings'])
             if 'image' in r[index]:
-                images.append(r[index]['image'])
+                images.append('image_not_found')
             else:
                 images.append('image_not_found')
                 print(images, type(images[0]))
