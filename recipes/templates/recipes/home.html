@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
@@ -16,8 +17,13 @@
     {% for title, image, id, minutes, servings in items %}
       <div class="col">
         <div class="card shadow-sm">
-          <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" ><img src="{{ image }}" class="img-fluid" alt="Responsive image">
-            <div class="card-body">
+          <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" >
+              {% if image == "image_not_found" %}
+                <img src="{% static 'images/food-bell.png' %}" class="img-fluid" alt="Responsive image">
+              {% else %}
+                <img src="{{ image }}" class="img-fluid" alt="Responsive image">
+              {% endif %}
+              <div class="card-body">
               <p class="card-text text-center">{{ title }}</p>
             </div>
           </a>

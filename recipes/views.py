@@ -30,12 +30,15 @@ def home(request):
         r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=9').json()
         r = r['recipes']
         for index, item in enumerate(r):
+            titles.append(r[index]['title'])
+            ids.append(r[index]['id'])
+            readyInMinutes.append(r[index]['readyInMinutes'])
+            servings.append(r[index]['servings'])
             if 'image' in r[index]:
-                titles.append(r[index]['title'])
                 images.append(r[index]['image'])
-                ids.append(r[index]['id'])
-                readyInMinutes.append(r[index]['readyInMinutes'])
-                servings.append(r[index]['servings'])
+            else:
+                images.append('image_not_found')
+                print(images, type(images[0]))
         items = zip(titles, images, ids, readyInMinutes, servings)
         form = InsertIngredients()
         context = {'items': items, 'form': form}
