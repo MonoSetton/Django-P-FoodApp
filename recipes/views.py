@@ -22,8 +22,9 @@ def home(request):
             titles.append(r[index]['title'])
             images.append(r[index]['image'])
             ids.append(r[index]['id'])
+        form = InsertIngredients()
         items = zip(titles, images, ids)
-        context = {'items': items}
+        context = {'items': items, 'form': form}
         return render(request, 'recipes/recipes_from_ingredients.html', context)
     else:
         titles, images, ids, readyInMinutes, servings = [], [], [], [], []
