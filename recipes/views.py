@@ -38,7 +38,6 @@ def home(request):
                 images.append(r[index]['image'])
             else:
                 images.append('image_not_found')
-                print(images, type(images[0]))
         items = zip(titles, images, ids, readyInMinutes, servings)
         form = InsertIngredients()
         context = {'items': items, 'form': form}
