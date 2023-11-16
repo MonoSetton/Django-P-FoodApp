@@ -20,8 +20,11 @@ def home(request):
                          f'ingredients={ingredients}').json()
         for index, item in enumerate(r):
             titles.append(r[index]['title'])
-            images.append(r[index]['image'])
             ids.append(r[index]['id'])
+            if 'image' in r[index]:
+                images.append(r[index]['image'])
+            else:
+                images.append('image_not_found')
         form = InsertIngredients()
         items = zip(titles, images, ids)
         context = {'items': items, 'form': form}
