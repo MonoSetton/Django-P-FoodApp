@@ -2,12 +2,14 @@
 {% block title %}Login{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="py-5 bg-body-tertiary">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <p>Create account <a href="{% url 'signup' %}">here</a></p>
-        <button type="submit" class="btn btn-success">Login</button>
-    </form>
+<div class="container">
+    <div class="py-5 bg-body-tertiary rounded">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <p>Create account <a href="{% url 'signup' %}">here</a></p>
+            <button type="submit" class="btn btn-success">Login</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
