@@ -3,6 +3,8 @@ from .forms import InsertIngredients
 import requests
 from django.contrib.auth.decorators import login_required
 from .models import Nutrient, ForeignAPI
+from django.http import JsonResponse
+
 
 spoonacular = ForeignAPI.objects.get(name='Spoonacular')
 api_key = spoonacular.API_key
@@ -85,3 +87,4 @@ def requirements_recipes(request):
         nutrients = Nutrient.objects.all()
         context = {'nutrients': nutrients}
         return render(request, 'recipes/insert_requirements.html', context)
+

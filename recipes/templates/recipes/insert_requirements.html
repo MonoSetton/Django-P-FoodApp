@@ -29,7 +29,8 @@
             const inputContainer = document.getElementById("input_container");
             const inputField = createInputField(selectedOption);
             inputContainer.appendChild(inputField);
-            dropdown.remove(dropdown.selectedIndex);
+            hideOption(selectedOption);
+            selectFirstNonHiddenOption();
         }
     });
 
@@ -52,14 +53,39 @@
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", function() {
             div.remove();
-            const newOption = document.createElement("option");
-            newOption.value = selectedOption;
-            newOption.text = selectedOption;
-            document.getElementById("dropdown").add(newOption);
+            unhideOption(selectedOption);
         });
         div.appendChild(deleteButton);
 
         return div;
     }
+    function hideOption(optionValue) {
+            const dropdown = document.getElementById("dropdown");
+            for (let i = 0; i < dropdown.options.length; i++) {
+                if (dropdown.options[i].value === optionValue) {
+                    dropdown.options[i].style.display = "none";
+                    break;
+                }
+            }
+        }
+
+        function unhideOption(optionValue) {
+            const dropdown = document.getElementById("dropdown");
+            for (let i = 0; i < dropdown.options.length; i++) {
+                if (dropdown.options[i].value === optionValue) {
+                    dropdown.options[i].style.display = "";
+                    break;
+                }
+            }
+        }
+        function selectFirstNonHiddenOption() {
+            const dropdown = document.getElementById("dropdown");
+            for (let i = 0; i < dropdown.options.length; i++) {
+                if (dropdown.options[i].style.display !== "none") {
+                    dropdown.selectedIndex = i;
+                    break;
+                }
+            }
+        }
 </script>
 {% endblock %}
