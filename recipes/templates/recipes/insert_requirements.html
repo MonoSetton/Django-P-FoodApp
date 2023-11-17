@@ -11,7 +11,7 @@
         <label for="dropdown">Select an option:</label>
         <select id="dropdown" name="selected_option">
             {% for item in nutrients %}
-                <option value="{{ item }}">{{ item }}</option>
+                <option value="{{ item }}" id="{{ item }}">{{ item }}</option>
             {% endfor %}
         </select>
         <button type="button" id="add_button">Add Selected Option</button>
@@ -60,23 +60,13 @@
         return div;
     }
     function hideOption(optionValue) {
-            const dropdown = document.getElementById("dropdown");
-            for (let i = 0; i < dropdown.options.length; i++) {
-                if (dropdown.options[i].value === optionValue) {
-                    dropdown.options[i].style.display = "none";
-                    break;
-                }
-            }
+            const selectedOptionId = document.getElementById(optionValue);
+            selectedOptionId.style.display = "none";
         }
 
         function unhideOption(optionValue) {
-            const dropdown = document.getElementById("dropdown");
-            for (let i = 0; i < dropdown.options.length; i++) {
-                if (dropdown.options[i].value === optionValue) {
-                    dropdown.options[i].style.display = "";
-                    break;
-                }
-            }
+            const selectedOptionId = document.getElementById(optionValue);
+            selectedOptionId.style.display = "";
         }
         function selectFirstNonHiddenOption() {
             const dropdown = document.getElementById("dropdown");
