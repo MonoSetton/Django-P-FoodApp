@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from .forms import InsertIngredients
 import requests
 from django.contrib.auth.decorators import login_required
-from .models import Nutrient
+from .models import Nutrient, ForeignAPI
 
-
-api_key = '6a39477e8ba44bd58cd15f4d050604a7'
-url = "https://api.spoonacular.com/recipes"
+spoonacular = ForeignAPI.objects.get(name='Spoonacular')
+api_key = spoonacular.API_key
+url = spoonacular.url
 
 
 @login_required(login_url='/login')
