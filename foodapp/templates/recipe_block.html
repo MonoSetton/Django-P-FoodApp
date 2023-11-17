@@ -1,21 +1,17 @@
-<div class="album py-5 bg-body-tertiary">
-    <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for title, image, id, minutes, servings in items %}
-          <div class="col">
-            <div class="card shadow-sm">
-              <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" ><img src="{{ image }}" class="img-fluid" alt="Responsive image">
-                <div class="card-body">
-                  <p class="card-text text-center">{{ title }}</p>
-                </div>
-              </a>
-                <div class="btn-group">
-                  <span class="btn btn-sm btn-outline-secondary">{{ servings }} servings</span>
-                  <span class="btn btn-sm btn-outline-secondary">{{ minutes }} minutes to prepare</span>
-                </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
+{% load static %}
+{% for title, image, id in items %}
+  <div class="col">
+    <div class="card shadow-sm">
+      <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" >
+        {% if image == "image_not_found" %}
+          <img src="{% static 'images/food-bell.png' %}" class="img-fluid" alt="Responsive image">
+        {% else %}
+          <img src="{{ image }}" class="img-fluid" alt="Responsive image">
+        {% endif %}
+        <div class="card-body">
+          <p class="card-text text-center">{{ title }}</p>
+        </div>
+      </a>
     </div>
   </div>
+{% endfor %}

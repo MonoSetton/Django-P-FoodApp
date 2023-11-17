@@ -3,7 +3,6 @@ from .forms import InsertIngredients
 import requests
 from django.contrib.auth.decorators import login_required
 from .models import Nutrient, ForeignAPI
-from django.http import JsonResponse
 
 
 spoonacular = ForeignAPI.objects.get(name='Spoonacular')
