@@ -5,6 +5,7 @@
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
+        <button type="submit" class="btn btn-info" id="random_recipes_button">Refresh random recipes</button>
         <div class="py-5 bg-body-tertiary">
             <p>Insert ingredients in english and separate them with ',' (e.g.:eggs, milk, pasta).</p>
             <form method="post">
@@ -20,7 +21,9 @@
 </div>
 
 <script type="text/javascript">
-    getRandomRecipes()
+
+    var button = document.getElementById('random_recipes_button')
+    button.addEventListener("click", getRandomRecipes)
 
     function getRandomRecipes(){
         var url = 'http://127.0.0.1:8000/api/recipes-random/'
@@ -28,12 +31,18 @@
         fetch(url).then((resp) => resp.json()).then(function(data){
             console.log(data)
 
-            
+            for (let i = 0; i < 2; i++){
+                document.getElementById('recipe_image'+i).src = data[i][1]
+                document.getElementById('recipe_title'+i).innerHTML = data[i][0]
+                document.getElementById('recipe_minutes'+i).innerHTML = data[i][3] + ' minutes to prepare'
+                document.getElementById('recipe_servings'+i).innerHTML = data[i][4] + ' servings'
 
-            document.getElementById('recipe_image').src = data[0][1]
-            document.getElementById('recipe_title').innerHTML = data[0][0]
-            document.getElementById('recipe_servings').innerHTML = data[0][3]
-            document.getElementById('recipe_minutes').innerHTML = data[0][4]
+                
+
+            }
+
+
+
         })
 
     }

@@ -12,6 +12,7 @@ url = spoonacular.url
 
 @login_required(login_url='/login')
 def home(request):
+    '''
     if request.method == 'POST':
         titles, images, ids = [], [], []
         conditionals = 'number=6&ranking=1&ignorePantry=false'
@@ -30,23 +31,23 @@ def home(request):
         items = zip(titles, images, ids)
         context = {'items': items, 'form': form}
         return render(request, 'recipes/recipes_from_ingredients.html', context)
-    else:
-        titles, images, ids, readyInMinutes, servings = [], [], [], [], []
-        r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=1').json()
-        r = r['recipes']
-        for index, item in enumerate(r):
-            titles.append(r[index]['title'])
-            ids.append(r[index]['id'])
-            readyInMinutes.append(r[index]['readyInMinutes'])
-            servings.append(r[index]['servings'])
-            if 'image' in r[index]:
-                images.append(r[index]['image'])
-            else:
-                images.append('image_not_found')
-        items = zip(titles, images, ids, readyInMinutes, servings)
-        form = InsertIngredients()
-        context = {'items': items, 'form': form}
-        return render(request, 'recipes/home.html', context)
+    '''
+    titles, images, ids, readyInMinutes, servings = [], [], [], [], []
+    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=2').json()
+    r = r['recipes']
+    for index, item in enumerate(r):
+        titles.append(r[index]['title'])
+        ids.append(r[index]['id'])
+        readyInMinutes.append(r[index]['readyInMinutes'])
+        servings.append(r[index]['servings'])
+        if 'image' in r[index]:
+            images.append(r[index]['image'])
+        else:
+            images.append('image_not_found')
+    items = zip(titles, images, ids, readyInMinutes, servings)
+    form = InsertIngredients()
+    context = {'items': items, 'form': form}
+    return render(request, 'recipes/home.html', context)
 
 
 @login_required(login_url='/login')
