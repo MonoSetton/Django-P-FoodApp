@@ -2,7 +2,7 @@
 {% for title, image, id, minutes, servings in items %}
   <div class="col">
     <div class="card shadow-sm mh-100">
-      <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" >
+      <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" id="recipe_url{{ forloop.counter0 }}">
           {% if image == "image_not_found" %}
             <img src="{% static 'images/food-bell.png' %}" class="img-fluid" alt="Responsive image" id="recipe_image{{ forloop.counter0 }}">
           {% else %}
@@ -12,7 +12,7 @@
           <p class="card-text text-center" id="recipe_title{{ forloop.counter0 }}">{{ title }}</p>
         </div>
       </a>
-      <div class="btn-group">
+      <div class="btn-group" id="additional_info{{ forloop.counter0 }}">
         <span class="btn btn-sm btn-outline-secondary" id="recipe_servings{{ forloop.counter0 }}">{{ servings }} servings</span>
         <span class="btn btn-sm btn-outline-secondary" id="recipe_minutes{{ forloop.counter0 }}">{{ minutes }} minutes to prepare</span>
       </div>
