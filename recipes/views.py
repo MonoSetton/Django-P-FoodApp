@@ -12,28 +12,8 @@ url = spoonacular.url
 
 @login_required(login_url='/login')
 def home(request):
-    '''
-    if request.method == 'POST':
-        titles, images, ids = [], [], []
-        conditionals = 'number=6&ranking=1&ignorePantry=false'
-        ingredients = request.POST.get('ingredients')
-        r = requests.get(f'{url}/findByIngredients?apiKey={api_key}&'
-                         f'{conditionals}&'
-                         f'ingredients={ingredients}').json()
-        for index, item in enumerate(r):
-            titles.append(r[index]['title'])
-            ids.append(r[index]['id'])
-            if 'image' in r[index]:
-                images.append(r[index]['image'])
-            else:
-                images.append('image_not_found')
-        form = InsertIngredients()
-        items = zip(titles, images, ids)
-        context = {'items': items, 'form': form}
-        return render(request, 'recipes/recipes_from_ingredients.html', context)
-    '''
     titles, images, ids, readyInMinutes, servings = [], [], [], [], []
-    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=2').json()
+    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=6').json()
     r = r['recipes']
     for index, item in enumerate(r):
         titles.append(r[index]['title'])

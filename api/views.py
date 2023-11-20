@@ -30,7 +30,7 @@ def nutrients_list(request):
 @api_view(['GET'])
 def recipes_random(request):
     titles, images, ids, readyInMinutes, servings = [], [], [], [], []
-    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=2').json()
+    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=6').json()
     r = r['recipes']
     for index, item in enumerate(r):
         titles.append(r[index]['title'])
@@ -48,7 +48,7 @@ def recipes_random(request):
 @api_view(['POST'])
 def recipes_ingredients(request):
     titles, images, ids = [], [], []
-    conditionals = 'number=2&ranking=1&ignorePantry=false'
+    conditionals = 'number=6&ranking=1&ignorePantry=false'
     ingredients = request.data.get('ingredients')
     r = requests.get(f'{url}/findByIngredients?apiKey={api_key}&'
                      f'{conditionals}&'

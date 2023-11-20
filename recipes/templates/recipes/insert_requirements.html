@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Insert Requirements{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -20,62 +21,102 @@
         <br>
         <input type="submit" value="Submit">
     </form>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" style="display: none">
+    <div class="col">
+      <div class="card shadow-sm">
+        <a href="" class="text-decoration-none text-black" >
+            <img src="{% static 'images/food-bell.png' %}" class="img-fluid" alt="Responsive image">
+          <div class="card-body">
+            <p class="card-text text-center"></p>
+          </div>
+        </a>
+      </div>
+    </div>
 </div>
-<script>
-    document.getElementById("add_button").addEventListener("click", function() {
-        const dropdown = document.getElementById("dropdown");
-        const selectedOption = dropdown.value;
-        if (selectedOption) {
-            const inputContainer = document.getElementById("input_container");
-            const inputField = createInputField(selectedOption);
-            inputContainer.appendChild(inputField);
-            hideOption(selectedOption);
-            selectFirstNonHiddenOption();
-        }
-    });
 
-    function createInputField(selectedOption) {
-        const div = document.createElement("div");
-        const inputLabel = document.createElement("label");
-        inputLabel.setAttribute("for", selectedOption);
-        inputLabel.textContent = "Enter value for " + selectedOption + ": ";
-        div.appendChild(inputLabel);
-
-        const inputField = document.createElement("input");
-        inputField.setAttribute("type", "number");
-        inputField.setAttribute("name", "selected_option_" + selectedOption);
-        inputField.setAttribute("id", selectedOption);
-        div.appendChild(inputField);
+</div>
 
 
-        const deleteButton = document.createElement("button");
-        deleteButton.setAttribute("type", "button");
-        deleteButton.textContent = "Delete";
-        deleteButton.addEventListener("click", function() {
-            div.remove();
-            unhideOption(selectedOption);
-        });
-        div.appendChild(deleteButton);
+<script type="text/javascript">
 
-        return div;
-    }
-    function hideOption(optionValue) {
-            const selectedOptionId = document.getElementById(optionValue);
-            selectedOptionId.style.display = "none";
-        }
-
-        function unhideOption(optionValue) {
-            const selectedOptionId = document.getElementById(optionValue);
-            selectedOptionId.style.display = "";
-        }
-        function selectFirstNonHiddenOption() {
-            const dropdown = document.getElementById("dropdown");
-            for (let i = 0; i < dropdown.options.length; i++) {
-                if (dropdown.options[i].style.display !== "none") {
-                    dropdown.selectedIndex = i;
-                    break;
-                }
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
         }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+    
+document.getElementById("add_button").addEventListener("click", function() {
+    const dropdown = document.getElementById("dropdown");
+    const selectedOption = dropdown.value;
+    if (selectedOption) {
+        const inputContainer = document.getElementById("input_container");
+        const inputField = createInputField(selectedOption);
+        inputContainer.appendChild(inputField);
+        hideOption(selectedOption);
+        selectFirstNonHiddenOption();
+    }
+});
+
+function createInputField(selectedOption) {
+    const div = document.createElement("div");
+    const inputLabel = document.createElement("label");
+    inputLabel.setAttribute("for", selectedOption);
+    inputLabel.textContent = "Enter value for " + selectedOption + ": ";
+    div.appendChild(inputLabel);
+
+    const inputField = document.createElement("input");
+    inputField.setAttribute("type", "number");
+    inputField.setAttribute("name", "selected_option_" + selectedOption);
+    inputField.setAttribute("id", selectedOption);
+    div.appendChild(inputField);
+
+
+    const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", function() {
+        div.remove();
+        unhideOption(selectedOption);
+    });
+    div.appendChild(deleteButton);
+
+    return div;
+}
+function hideOption(optionValue) {
+        const selectedOptionId = document.getElementById(optionValue);
+        selectedOptionId.style.display = "none";
+    }
+
+    function unhideOption(optionValue) {
+        const selectedOptionId = document.getElementById(optionValue);
+        selectedOptionId.style.display = "";
+    }
+    function selectFirstNonHiddenOption() {
+        const dropdown = document.getElementById("dropdown");
+        for (let i = 0; i < dropdown.options.length; i++) {
+            if (dropdown.options[i].style.display !== "none") {
+                dropdown.selectedIndex = i;
+                break;
+            }
+        }
+    }
+
+
+
+
+
 </script>
 {% endblock %}
