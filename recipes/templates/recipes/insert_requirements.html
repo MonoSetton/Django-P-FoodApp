@@ -7,7 +7,7 @@
     {% if error_message %}
     <div class="alert alert-danger" role="alert">{{ error_message }}</div>
     {% endif %}
-    <form method="post">
+    <form method="post" id="requirements_form">
         {% csrf_token %}
         <label for="dropdown">Select an option:</label>
         <select id="dropdown" name="selected_option">
@@ -19,21 +19,26 @@
         <br>
         <div id="input_container"></div>
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" id="submit_form_button">
     </form>
+    <br />
+    <div class="container" style="display: none" id="recipes_block">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for i in '012345'|make_list %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <a href="" class="text-decoration-none text-black" id="recipe_url{{ forloop.counter0 }}">
+                    <img src="{% static 'images/food-bell.png' %}" class="img-fluid" alt="Responsive image" id="recipe_image{{ forloop.counter0 }}">
+                  <div class="card-body">
+                    <p class="card-text text-center" id="recipe_title{{ forloop.counter0 }}"></p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" style="display: none">
-    <div class="col">
-      <div class="card shadow-sm">
-        <a href="" class="text-decoration-none text-black" >
-            <img src="{% static 'images/food-bell.png' %}" class="img-fluid" alt="Responsive image">
-          <div class="card-body">
-            <p class="card-text text-center"></p>
-          </div>
-        </a>
-      </div>
+        </div>
     </div>
-</div>
 
 </div>
 
@@ -55,7 +60,6 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
 const csrftoken = getCookie('csrftoken');
     
 document.getElementById("add_button").addEventListener("click", function() {
@@ -79,7 +83,7 @@ function createInputField(selectedOption) {
 
     const inputField = document.createElement("input");
     inputField.setAttribute("type", "number");
-    inputField.setAttribute("name", "selected_option_" + selectedOption);
+    inputField.setAttribute("name", selectedOption);
     inputField.setAttribute("id", selectedOption);
     div.appendChild(inputField);
 
@@ -95,24 +99,60 @@ function createInputField(selectedOption) {
 
     return div;
 }
+
+
+var form = document.getElementById('requirements_form')
+form.addEventListener('submit', function(event){
+  event.preventDefault();
+
+  var url = 'http://127.0.0.1:8000/api/recipes-requirements/'
+
+  const formData = new FormData(this)
+
+  csrf = [...formData].slice(0, 1)
+  console.log(csrf)
+  requirements = [...formData].slice(2)
+
+  console.log(requirements)
+  
+  fetch(url, {
+        method: 'POST',
+        headers:{
+            'Content-type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body:JSON.stringify({'requirements': requirements})
+      }).then((resp) => resp.json()).then(function(data){
+        console.log(data)
+        unhideOption('recipes_block')
+        for (let i = 0; i < 7; i++){
+            
+//          document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
+            document.getElementById('recipe_image'+i).src = data[i][1]
+            document.getElementById('recipe_title'+i).innerHTML = data[i][0]
+        }
+    })
+})
+
+
 function hideOption(optionValue) {
         const selectedOptionId = document.getElementById(optionValue);
         selectedOptionId.style.display = "none";
     }
 
-    function unhideOption(optionValue) {
-        const selectedOptionId = document.getElementById(optionValue);
-        selectedOptionId.style.display = "";
-    }
-    function selectFirstNonHiddenOption() {
-        const dropdown = document.getElementById("dropdown");
-        for (let i = 0; i < dropdown.options.length; i++) {
-            if (dropdown.options[i].style.display !== "none") {
-                dropdown.selectedIndex = i;
-                break;
-            }
+function unhideOption(optionValue) {
+    const selectedOptionId = document.getElementById(optionValue);
+    selectedOptionId.style.display = "";
+}
+function selectFirstNonHiddenOption() {
+    const dropdown = document.getElementById("dropdown");
+    for (let i = 0; i < dropdown.options.length; i++) {
+        if (dropdown.options[i].style.display !== "none") {
+            dropdown.selectedIndex = i;
+            break;
         }
     }
+}
 
 
 
