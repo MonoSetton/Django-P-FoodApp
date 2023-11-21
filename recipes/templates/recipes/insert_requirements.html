@@ -101,19 +101,13 @@ function createInputField(selectedOption) {
 }
 
 
-var form = document.getElementById('requirements_form')
-form.addEventListener('submit', function(event){
+document.getElementById('requirements_form').addEventListener('submit', function(event){
   event.preventDefault();
 
   var url = 'http://127.0.0.1:8000/api/recipes-requirements/'
 
   const formData = new FormData(this)
-
-  csrf = [...formData].slice(0, 1)
-  console.log(csrf)
   requirements = [...formData].slice(2)
-
-  console.log(requirements)
   
   fetch(url, {
         method: 'POST',
@@ -123,10 +117,8 @@ form.addEventListener('submit', function(event){
         },
         body:JSON.stringify({'requirements': requirements})
       }).then((resp) => resp.json()).then(function(data){
-        console.log(data)
         unhideOption('recipes_block')
-        for (let i = 0; i < 7; i++){
-            
+        for (let i = 0; i < 7; i++){ 
 //          document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
             document.getElementById('recipe_image'+i).src = data[i][1]
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
@@ -136,9 +128,9 @@ form.addEventListener('submit', function(event){
 
 
 function hideOption(optionValue) {
-        const selectedOptionId = document.getElementById(optionValue);
-        selectedOptionId.style.display = "none";
-    }
+    const selectedOptionId = document.getElementById(optionValue);
+    selectedOptionId.style.display = "none";
+}
 
 function unhideOption(optionValue) {
     const selectedOptionId = document.getElementById(optionValue);
@@ -153,10 +145,5 @@ function selectFirstNonHiddenOption() {
         }
     }
 }
-
-
-
-
-
 </script>
 {% endblock %}
