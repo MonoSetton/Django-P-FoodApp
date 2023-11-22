@@ -45,7 +45,9 @@ var random_button = document.getElementById('random_recipes_button')
 random_button.addEventListener("click", getRandomRecipes)
 
 function getRandomRecipes(){
-    var url = 'http://127.0.0.1:8000/api/recipes-random/'
+
+    var url = '/api/recipes-random/'
+
 
     fetch(url).then((resp) => resp.json()).then(function(data){
 
