@@ -45,7 +45,7 @@ var random_button = document.getElementById('random_recipes_button')
 random_button.addEventListener("click", getRandomRecipes)
 
 function getRandomRecipes(){
-    var url = 'foodapp-production-11037.up.railway.app/api/recipes-random/'
+    var url = '/api/recipes-random/'
 
     fetch(url).then((resp) => resp.json()).then(function(data){
 
