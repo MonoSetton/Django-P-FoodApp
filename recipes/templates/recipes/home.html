@@ -67,7 +67,7 @@ var form = document.getElementById('ingredients_form')
 form.addEventListener('submit', function(event){
     event.preventDefault();
 
-    var url = 'http://127.0.0.1:8000/api/recipes-ingredients/'
+    var url = '/api/recipes-ingredients/'
     var ingredients = document.getElementById('id_ingredients').value
     fetch(url, {
         method: 'POST',

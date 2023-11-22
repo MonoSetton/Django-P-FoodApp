@@ -104,7 +104,7 @@ function createInputField(selectedOption) {
 document.getElementById('requirements_form').addEventListener('submit', function(event){
   event.preventDefault();
 
-  var url = 'http://127.0.0.1:8000/api/recipes-requirements/'
+  var url = '/api/recipes-requirements/'
 
   const formData = new FormData(this)
   requirements = [...formData].slice(2)
