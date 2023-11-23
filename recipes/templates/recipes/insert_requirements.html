@@ -119,9 +119,13 @@ document.getElementById('requirements_form').addEventListener('submit', function
       }).then((resp) => resp.json()).then(function(data){
         unhideOption('recipes_block')
         for (let i = 0; i < 7; i++){ 
-          document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
-            document.getElementById('recipe_image'+i).src = data[i][1]
+            document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
+            if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
+                document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
+            } else {
+                document.getElementById('recipe_image'+i).src = data[i][1]
+            }  
         }
     })
 })

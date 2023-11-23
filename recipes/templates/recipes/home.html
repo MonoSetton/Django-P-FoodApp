@@ -55,10 +55,14 @@ function getRandomRecipes(){
             const additional_info = document.getElementById('additional_info'+i)
             additional_info.style.display = ''
             document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
-            document.getElementById('recipe_image'+i).src = data[i][1]
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
             document.getElementById('recipe_minutes'+i).innerHTML = data[i][3] + ' minutes to prepare'
             document.getElementById('recipe_servings'+i).innerHTML = data[i][4] + ' servings'
+            if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
+                document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
+            } else {
+                document.getElementById('recipe_image'+i).src = data[i][1]
+            }  
         }
     })
 }
@@ -82,8 +86,12 @@ form.addEventListener('submit', function(event){
             if (additional_info !== null)
                 additional_info.style.display = 'none'
             document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
-            document.getElementById('recipe_image'+i).src = data[i][1]
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
+            if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
+                document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
+            } else {
+                document.getElementById('recipe_image'+i).src = data[i][1]
+            }  
         }
     })
 })
