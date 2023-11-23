@@ -61,7 +61,7 @@ function getRandomRecipes(){
             if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
                 document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
             } else {
-                document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
+                document.getElementById('recipe_image'+i).src = data[i][1]
             }  
         }
     })
