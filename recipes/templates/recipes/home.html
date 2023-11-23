@@ -58,8 +58,8 @@ function getRandomRecipes(){
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
             document.getElementById('recipe_minutes'+i).innerHTML = data[i][3] + ' minutes to prepare'
             document.getElementById('recipe_servings'+i).innerHTML = data[i][4] + ' servings'
-            if (document.getElementById('recipe_image'+i).src != 'image_not_found'){
-                document.getElementById('recipe_image'+i).src = {% static 'images/food-bell.png' %}
+            if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
+                document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
             } else {
                 document.getElementById('recipe_image'+i).src = data[i][1]
             }  
