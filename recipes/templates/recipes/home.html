@@ -54,7 +54,7 @@ function getRandomRecipes(){
         for (let i = 0; i < 7; i++){
             const additional_info = document.getElementById('additional_info'+i)
             additional_info.style.display = ''
-//            document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
+            document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
             document.getElementById('recipe_image'+i).src = data[i][1]
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
             document.getElementById('recipe_minutes'+i).innerHTML = data[i][3] + ' minutes to prepare'
@@ -81,7 +81,7 @@ form.addEventListener('submit', function(event){
             const additional_info = document.getElementById('additional_info'+i)
             if (additional_info !== null)
                 additional_info.style.display = 'none'
-//            document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
+            document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
             document.getElementById('recipe_image'+i).src = data[i][1]
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
         }
