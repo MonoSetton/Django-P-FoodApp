@@ -40,7 +40,7 @@ function getCookie(name) {
 
 const csrftoken = getCookie('csrftoken');
 
-
+var static_png = "{% static 'images/food-bell.png' %}"
 var random_button = document.getElementById('random_recipes_button')
 random_button.addEventListener("click", getRandomRecipes)
 
@@ -59,9 +59,9 @@ function getRandomRecipes(){
             document.getElementById('recipe_minutes'+i).innerHTML = data[i][3] + ' minutes to prepare'
             document.getElementById('recipe_servings'+i).innerHTML = data[i][4] + ' servings'
             if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
-                document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
+                document.getElementById('recipe_image'+i).src = static_png
             } else {
-                document.getElementById('recipe_image'+i).src = data[i][1]
+                document.getElementById('recipe_image'+i).src = static_png
             }  
         }
     })
