@@ -100,7 +100,7 @@ function createInputField(selectedOption) {
     return div;
 }
 
-
+var static_png = "{% static 'images/food-bell.png' %}"
 document.getElementById('requirements_form').addEventListener('submit', function(event){
   event.preventDefault();
 
@@ -122,7 +122,7 @@ document.getElementById('requirements_form').addEventListener('submit', function
             document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2]
             document.getElementById('recipe_title'+i).innerHTML = data[i][0]
             if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
-                document.getElementById('recipe_image'+i).src = 'images/food-bell.png'
+                document.getElementById('recipe_image'+i).src = static_png
             } else {
                 document.getElementById('recipe_image'+i).src = data[i][1]
             }  
