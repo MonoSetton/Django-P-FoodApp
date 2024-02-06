@@ -101,18 +101,9 @@ DATABASES = {
         'PASSWORD': os.getenv("PGPASSWORD"),
         'HOST': os.getenv("PGHOST"),
         'PORT': os.getenv("PGPORT"),
-    },
-    'users': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': os.getenv("USERS_PGUSER"),
-        'PASSWORD': os.getenv("USERS_PGPASSWORD"),
-        'HOST': os.getenv("USERS_PGHOST"),
-        'PORT': os.getenv("USERS_PGPORT"),
     }
 }
 
-DATABASE_ROUTERS = ['accounts.router.AuthRouter', 'recipes.router.RecipeRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
