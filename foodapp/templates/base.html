@@ -159,6 +159,7 @@
     {% if user.is_authenticated %}
       <div class="d-flex flex-row">
         <a href="{% url 'insert_requirements' %}" class="text-white p-2">Requirements Recipes</a>
+        <a href="{% url 'profile' %}" class="text-white p-2">Profile</a>
         <a class="nav-link text-white p-2" aria-current="page" href="/logout">Logout</a>
       </div>
     {% endif %}

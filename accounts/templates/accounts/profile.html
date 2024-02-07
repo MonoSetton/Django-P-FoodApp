@@ -2,5 +2,18 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 
+<a href="{% url 'custom_recipes' %}">Add Custom Recipe</a>
+
+{% for recipe in custom_recipes %}
+    <div class="col">
+      <div class="card shadow-sm">
+        <a href="{% url 'detail_custom_recipe' recipe.id %}" class="text-decoration-none text-black" >
+          <div class="card-body">
+            <p class="card-text text-center">{{ recipe }}</p>
+          </div>
+        </a>
+      </div>
+</div>
+{% endfor %}
 
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Custom Recipe{% endblock %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container" style="background-color: #fff">
+<form method="post">
+        {% csrf_token %}
+        <label for="id_name">Recipe Name:</label>
+        <input type="text" id="id_name" name="name" required><br><br>
+
+        <fieldset>
+            <legend>Ingredients:</legend>
+            {{ ingredient_formset.management_form }}
+            {% for form in ingredient_formset %}
+                {{ form.as_p }}
+            {% endfor %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Steps:</legend>
+            {{ step_formset.management_form }}
+            {% for form in step_formset %}
+                {{ form.as_p }}
+            {% endfor %}
+        </fieldset>
+
+        <button type="submit">Save Recipe</button>
+    </form>
+</div>
+{% endblock %}

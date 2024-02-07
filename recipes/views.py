@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import InsertIngredients
+from .forms import InsertIngredients, IngredientFormSet, StepFormSet
 import requests
 from django.contrib.auth.decorators import login_required
-from .models import Nutrient, ForeignAPI
+from .models import Nutrient, ForeignAPI, CustomRecipe, Ingredient, Step
 
 
 spoonacular = ForeignAPI.objects.get(name='Spoonacular')
@@ -44,3 +44,41 @@ def requirements_recipes(request):
     context = {'nutrients': nutrients}
     return render(request, 'recipes/insert_requirements.html', context)
 
+
+@login_required(login_url='/login')
+def custom_recipes(request):
+    if request.method == 'POST':
+        ingredient_formset = IngredientFormSet(request.POST, prefix='ingredient')
+        step_formset = StepFormSet(request.POST, prefix='step')
+        if ingredient_formset.is_valid() and step_formset.is_valid():
+            ingredients = ingredient_formset.save(commit=False)
+            steps = step_formset.save(commit=False)
+
+            recipe = CustomRecipe.objects.create(name=request.POST.get('name'), author=request.user)
+
+            for ingredient in ingredients:
+                ingredient.recipe = recipe
+                ingredient.save()
+
+            for step in steps:
+                step.recipe = recipe
+                step.save()
+
+            return redirect('profile')
+    else:
+        ingredient_formset = IngredientFormSet(prefix='ingredient')
+        step_formset = StepFormSet(prefix='step')
+
+    return render(request, 'recipes/create_custom_recipe.html', {
+        'ingredient_formset': ingredient_formset,
+        'step_formset': step_formset,
+    })
+
+
+@login_required(login_url='/login')
+def detail_custom_recipe(request, pk):
+    recipe = CustomRecipe.objects.get(id=pk)
+    ingredients = Ingredient.objects.filter(recipe=recipe)
+    steps = Step.objects.filter(recipe=recipe)
+    context = {'recipe': recipe, 'ingredients': ingredients, 'steps': steps}
+    return render(request, 'recipes/detail_custom_recipe.html', context)
