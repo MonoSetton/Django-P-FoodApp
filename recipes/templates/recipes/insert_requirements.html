@@ -3,7 +3,7 @@
 {% block title %}Insert Requirements{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="py-5 bg-body-tertiary">
+<div class="row justify-content-center mt-5">
     {% if error_message %}
     <div class="alert alert-danger" role="alert">{{ error_message }}</div>
     {% endif %}
@@ -22,7 +22,7 @@
         <input type="submit" value="Submit" id="submit_form_button">
     </form>
     <br />
-    <div class="container" style="display: none" id="recipes_block">
+    <div class="container col-md-8" style="display: none" id="recipes_block">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           {% for i in '012345'|make_list %}
             <div class="col">

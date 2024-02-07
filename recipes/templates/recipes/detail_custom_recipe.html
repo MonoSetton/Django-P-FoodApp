@@ -1,8 +1,27 @@
-{{ recipe }} <br>
-{% for ingredient in ingredients %}
-ingredient : {{ ingredient }} <br>
-{% endfor %}
-
-{% for step in steps %}
-step: {{ step }} <br>
-{% endfor %}
+{% extends 'base.html' %}
+{% block title %}Recipe{% endblock %}
+{% load static %}
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <img src="{% static 'images/food-bell.png' %}" class="card-img-top" alt="{{ recipe.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Ingredients</h6>
+                    <ul class="list-group">
+                        {% for ingredient in ingredients %}
+                            <li class="list-group-item">{{ ingredient }}</li>
+                        {% endfor %}
+                    </ul>
+                    <h6 class="card-subtitle mb-2 mt-3 text-muted">Steps</h6>
+                    <ol class="list-group">
+                        {% for step in steps %}
+                            <li class="list-group-item">{{ step }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
