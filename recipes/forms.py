@@ -8,6 +8,12 @@ class InsertIngredients(forms.Form):
     fields = ['ingredients']
 
 
+class RecipeForm(forms.ModelForm):
+    class Meta:
+        model = CustomRecipe
+        fields = ['name']
+
+
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Recipe{% endblock %}
+{% block content %}
+    <h1>Update Recipe</h1>
+    <form method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Recipe Information:</legend>
+            {{ recipe_form.as_p }}
+        </fieldset>
+
+        <fieldset>
+            <legend>Ingredients:</legend>
+            {{ ingredient_formset.management_form }}
+            {% for form in ingredient_formset %}
+                <div class="formset-row">{{ form }}</div>
+            {% endfor %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Steps:</legend>
+            {{ step_formset.management_form }}
+            {% for form in step_formset %}
+                <div class="formset-row">{{ form }}</div>
+            {% endfor %}
+        </fieldset>
+
+        <button type="submit">Update Recipe</button>
+    </form>
+{% endblock %}
