@@ -20,6 +20,7 @@ class ForeignAPI(models.Model):
 
 class CustomRecipe(models.Model):
     name = models.CharField(max_length=150)
+    image = models.ImageField(null=True, blank=True, upload_to='recipe_images')
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):

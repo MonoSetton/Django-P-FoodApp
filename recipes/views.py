@@ -50,13 +50,17 @@ def requirements_recipes(request):
 @login_required(login_url='/login')
 def custom_recipes(request):
     if request.method == 'POST':
+        recipe_form = RecipeForm(request.POST, request.FILES)
         ingredient_formset = IngredientFormSet(request.POST, prefix='ingredient')
         step_formset = StepFormSet(request.POST, prefix='step')
-        if ingredient_formset.is_valid() and step_formset.is_valid():
+
+        if recipe_form.is_valid() and ingredient_formset.is_valid() and step_formset.is_valid():
+            recipe = recipe_form.save(commit=False)
+            recipe.author = request.user
+            recipe.save()
+
             ingredients = ingredient_formset.save(commit=False)
             steps = step_formset.save(commit=False)
-
-            recipe = CustomRecipe.objects.create(name=request.POST.get('name'), author=request.user)
 
             for ingredient in ingredients:
                 ingredient.recipe = recipe
@@ -68,13 +72,12 @@ def custom_recipes(request):
 
             return redirect('profile')
     else:
+        recipe_form = RecipeForm()
         ingredient_formset = IngredientFormSet(prefix='ingredient')
         step_formset = StepFormSet(prefix='step')
-
-    return render(request, 'recipes/create_custom_recipe.html', {
-        'ingredient_formset': ingredient_formset,
-        'step_formset': step_formset,
-    })
+    context = {'recipe_form': recipe_form,'ingredient_formset': ingredient_formset,'step_formset': step_formset,
+    }
+    return render(request, 'recipes/create_custom_recipe.html', context)
 
 
 @login_required(login_url='/login')

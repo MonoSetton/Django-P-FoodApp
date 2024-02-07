@@ -5,16 +5,18 @@
 {% block content %}
 <div class="row justify-content-center mt-5">
     <div class="col-md-6">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <label for="id_name">Recipe Name:</label>
-            <input type="text" id="id_name" name="name" required><br><br>
+            <fieldset>
+                <legend>Recipe Information:</legend>
+                {{ recipe_form.as_p }}
+            </fieldset>
 
             <fieldset>
                 <legend>Ingredients:</legend>
                 {{ ingredient_formset.management_form }}
                 {% for form in ingredient_formset %}
-                    {{ form.as_p }}
+                    <div class="formset-row">{{ form }}</div>
                 {% endfor %}
             </fieldset>
 
@@ -22,11 +24,11 @@
                 <legend>Steps:</legend>
                 {{ step_formset.management_form }}
                 {% for form in step_formset %}
-                    {{ form.as_p }}
+                    <div class="formset-row">{{ form }}</div>
                 {% endfor %}
             </fieldset>
 
-            <button type="submit" class="btn btn-danger">Save Recipe</button>
+            <button type="submit">Create Recipe</button>
         </form>
     </div>
 </div>

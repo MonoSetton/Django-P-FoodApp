@@ -5,7 +5,11 @@
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
             <div class="card">
-                <img src="{% static 'images/food-bell.png' %}" class="card-img-top" alt="{{ recipe.name }}">
+                {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.name }}">
+                {% else %}
+                    <img src="{% static 'images/food-bell.png' %}" class="card-img-top" alt="{{ recipe.name }}">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ recipe.name }}</h5>
                     <form action="{% url 'delete_custom_recipe' recipe.id %}" method="post">
