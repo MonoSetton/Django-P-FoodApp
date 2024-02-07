@@ -3,6 +3,7 @@ from .forms import InsertIngredients, IngredientFormSet, StepFormSet
 import requests
 from django.contrib.auth.decorators import login_required
 from .models import Nutrient, ForeignAPI, CustomRecipe, Ingredient, Step
+from django.core.exceptions import BadRequest
 
 
 spoonacular = ForeignAPI.objects.get(name='Spoonacular')
@@ -82,3 +83,14 @@ def detail_custom_recipe(request, pk):
     steps = Step.objects.filter(recipe=recipe)
     context = {'recipe': recipe, 'ingredients': ingredients, 'steps': steps}
     return render(request, 'recipes/detail_custom_recipe.html', context)
+
+
+@login_required(login_url='/login')
+def delete_custom_recipe(request, pk):
+    recipe = CustomRecipe.objects.get(id=pk)
+    if recipe.author == request.user:
+        if request.method == 'POST':
+            recipe.delete()
+            return redirect('/profile')
+    else:
+        raise BadRequest("You do not have permission to see this site")

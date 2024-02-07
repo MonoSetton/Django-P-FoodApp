@@ -8,6 +8,10 @@
                 <img src="{% static 'images/food-bell.png' %}" class="card-img-top" alt="{{ recipe.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ recipe.name }}</h5>
+                    <form action="{% url 'delete_custom_recipe' recipe.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-dark">Delete Recipe</button>
+                    </form>
                     <h6 class="card-subtitle mb-2 text-muted">Ingredients</h6>
                     <ul class="list-group">
                         {% for ingredient in ingredients %}
