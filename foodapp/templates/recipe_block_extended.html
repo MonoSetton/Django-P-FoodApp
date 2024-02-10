@@ -1,5 +1,6 @@
 {% load static %}
 {% for title, image, id, minutes, servings in items %}
+
   <div class="col">
     <div class="card shadow-sm mh-100">
       <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" id="recipe_url{{ forloop.counter0 }}">
@@ -18,4 +19,5 @@
       </div>
     </div>
   </div>
+
 {% endfor %}

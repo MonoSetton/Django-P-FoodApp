@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Insert Requirements{% endblock %}
+{% block title %}Recipes from Requirements{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
+
 <div class="row justify-content-center mt-5">
     <div class="alert alert-danger" role="alert" style="display: none;"></div>
     <form method="post" id="requirements_form">
@@ -39,7 +40,6 @@
     </div>
 
 </div>
-
 
 <script type="text/javascript">
 
@@ -159,4 +159,5 @@ function selectFirstNonHiddenOption() {
     }
 }
 </script>
+
 {% endblock %}

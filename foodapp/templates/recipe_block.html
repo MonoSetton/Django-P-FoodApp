@@ -1,5 +1,6 @@
 {% load static %}
 {% for title, image, id in items %}
+
 <div class="col">
   <div class="card shadow-sm">
     <a href="{% url 'detail_recipes' id %}" class="text-decoration-none text-black" >
@@ -14,4 +15,5 @@
     </a>
   </div>
 </div>
+
 {% endfor %}

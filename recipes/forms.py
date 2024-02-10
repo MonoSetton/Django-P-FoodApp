@@ -27,9 +27,9 @@ class StepForm(forms.ModelForm):
 
 
 IngredientFormSet = inlineformset_factory(
-    CustomRecipe, Ingredient, form=IngredientForm, extra=2, can_delete=False
+    CustomRecipe, Ingredient, form=IngredientForm, extra=6, can_delete=False
 )
 
 StepFormSet = inlineformset_factory(
-    CustomRecipe, Step, form=StepForm, extra=2, can_delete=False
+    CustomRecipe, Step, form=StepForm, extra=8, can_delete=False
 )
