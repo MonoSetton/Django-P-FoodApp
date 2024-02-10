@@ -15,24 +15,24 @@
             </a>
         </div>
           <h3>My Recipes</h3>
-          <div class="row row-cols-1 row-cols-md-4 g-4">
-              {% for recipe in custom_recipes %}
-              <a href="{% url 'detail_custom_recipe' recipe.id %}" style="color: inherit; text-decoration: none;">
-                <div class="col">
-                    <div class="card h-100">
-                        {% if recipe.image %}
-                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.name }}">
-                        {% else %}
-                            <img src="{% static 'images/food-bell.png' %}" class="card-img-top" alt="{{ recipe.name }}">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recipe.name }}</h5>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for recipe in custom_recipes %}
+                <a href="{% url 'detail_custom_recipe' recipe.id %}" style="color: inherit; text-decoration: none;">
+                    <div class="col">
+                        <div class="card h-100 d-flex flex-column">
+                            {% if recipe.image %}
+                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.name }}" style="object-fit: cover; height: 200px;">
+                            {% else %}
+                            <img src="{% static 'images/food-bell.png' %}" class="card-img-top" alt="{{ recipe.name }}" style="object-fit: cover; height: 200px;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recipe.name }}</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-              </a>
-              {% endfor %}
-          </div>
+                </a>
+                {% endfor %}
+            </div>
       </div>
   </div>
 

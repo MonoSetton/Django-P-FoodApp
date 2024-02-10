@@ -75,7 +75,7 @@ def custom_recipes(request):
         recipe_form = RecipeForm()
         ingredient_formset = IngredientFormSet(prefix='ingredient')
         step_formset = StepFormSet(prefix='step')
-    context = {'recipe_form': recipe_form,'ingredient_formset': ingredient_formset,'step_formset': step_formset,
+    context = {'recipe_form': recipe_form, 'ingredient_formset': ingredient_formset, 'step_formset': step_formset,
     }
     return render(request, 'recipes/create_custom_recipe.html', context)
 
@@ -103,12 +103,12 @@ def delete_custom_recipe(request, pk):
 def update_custom_recipe(request, pk):
     recipe = CustomRecipe.objects.get(id=pk)
 
-    IngredientFormSet = inlineformset_factory(CustomRecipe, Ingredient, form=IngredientForm, extra=0, can_delete=True)
+    IngredientFormSet = inlineformset_factory(CustomRecipe, Ingredient, form=IngredientForm, extra=3, can_delete=True)
 
-    StepFormSet = inlineformset_factory(CustomRecipe, Step, form=StepForm, extra=0, can_delete=True)
+    StepFormSet = inlineformset_factory(CustomRecipe, Step, form=StepForm, extra=3, can_delete=True)
 
     if request.method == 'POST':
-        recipe_form = RecipeForm(request.POST, instance=recipe)
+        recipe_form = RecipeForm(request.POST, request.FILES, instance=recipe)
         ingredient_formset = IngredientFormSet(request.POST, instance=recipe, prefix='ingredient')
         step_formset = StepFormSet(request.POST, instance=recipe, prefix='step')
 
