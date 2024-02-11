@@ -106,7 +106,7 @@ document.getElementById('requirements_form').addEventListener('submit', function
 
   const formData = new FormData(this)
   requirements = [...formData].slice(2)
-  
+
   fetch(url, {
     method: 'POST',
     headers:{
