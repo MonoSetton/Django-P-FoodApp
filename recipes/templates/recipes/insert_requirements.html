@@ -120,6 +120,7 @@ document.getElementById('requirements_form').addEventListener('submit', function
     }
     return resp.json();
   }).then(function(data){
+    document.querySelector('.alert').style.display = 'none';
     unhideOption('recipes_block');
     for (let i = 0; i < 7; i++){
         if (data[i]) { // Check if data[i] is defined
