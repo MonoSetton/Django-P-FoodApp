@@ -126,7 +126,7 @@ document.getElementById('requirements_form').addEventListener('submit', function
         if (data[i]) { // Check if data[i] is defined
             document.getElementById('recipe_url'+i).href = 'detail_recipes/' + data[i][2];
             document.getElementById('recipe_title'+i).innerHTML = data[i][0];
-            if (document.getElementById('recipe_image'+i).src == 'image_not_found'){
+            if (data[i][1] == 'image_not_found'){
                 document.getElementById('recipe_image'+i).src = static_png;
             } else {
                 document.getElementById('recipe_image'+i).src = data[i][1];
