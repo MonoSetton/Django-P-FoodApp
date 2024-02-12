@@ -96,6 +96,8 @@ def delete_custom_recipe(request, pk):
         if request.method == 'POST':
             recipe.delete()
             return redirect('/profile')
+        context = {'recipe': recipe}
+        return render(request, 'recipes/delete_custom_recipe.html', context)
     else:
         raise BadRequest("You do not have permission to see this site")
 

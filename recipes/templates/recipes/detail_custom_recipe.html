@@ -11,28 +11,29 @@
                 {% else %}
                     <img src="{% static 'images/food-bell.png' %}" class="card-img-top" alt="{{ recipe.name }}">
                 {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ recipe.name }}</h5>
-                    <form action="{% url 'delete_custom_recipe' recipe.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-dark">Delete Recipe</button>
-                    </form>
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.name }}</h5>
+                <div class="d-flex justify-content-between">
                     <a href="{% url 'update_custom_recipe' recipe.id %}">
                         <button type="submit" class="btn btn-outline-dark">Edit Recipe</button>
                     </a>
-                    <h6 class="card-subtitle mb-2 text-muted">Ingredients</h6>
-                    <ul class="list-group">
-                        {% for ingredient in ingredients %}
-                            <li class="list-group-item">{{ ingredient }}</li>
-                        {% endfor %}
-                    </ul>
-                    <h6 class="card-subtitle mb-2 mt-3 text-muted">Steps</h6>
-                    <ol class="list-group">
-                        {% for step in steps %}
-                            <li class="list-group-item">{{ step }}</li>
-                        {% endfor %}
-                    </ol>
+                    <a href="{% url 'delete_custom_recipe' recipe.id %}">
+                        <button type="submit" class="btn btn-danger">Delete Recipe</button>
+                    </a>
                 </div>
+                <h6 class="card-subtitle mb-2 text-muted">Ingredients</h6>
+                <ul class="list-group">
+                    {% for ingredient in ingredients %}
+                        <li class="list-group-item">{{ ingredient }}</li>
+                    {% endfor %}
+                </ul>
+                <h6 class="card-subtitle mb-2 mt-3 text-muted">Steps</h6>
+                <ol class="list-group">
+                    {% for step in steps %}
+                        <li class="list-group-item">{{ step }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
             </div>
         </div>
     </div>
