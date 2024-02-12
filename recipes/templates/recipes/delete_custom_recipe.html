@@ -12,7 +12,7 @@
                 <form action="{% url 'delete_custom_recipe' recipe.id %}" method="POST">
                     {% csrf_token %}
                     <div class="d-flex justify-content-between">
-                        <a href="{% url 'home' %}" class="btn-outline-dark">Cancel</a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-dark">Cancel</a>
                         <button type="submit" name="confirm" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
