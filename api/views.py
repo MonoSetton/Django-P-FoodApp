@@ -70,17 +70,21 @@ def recipes_requirements(request):
     titles, images, ids = [], [], []
     query = ''
     for key, value in request.data.get('requirements'):
-        query += f'&{key}={value}'
-    r = requests.get(f'{url}/findByNutrients?apiKey={api_key}&number=6&random=true{query}').json()
-    for index, item in enumerate(r):
-        titles.append(r[index]['title'])
-        ids.append(r[index]['id'])
-        if 'image' in r[index]:
-            images.append(r[index]['image'])
-        else:
-            images.append('image_not_found')
-    items = zip(titles, images, ids)
-    return Response(items)
+        if value != '':
+            query += f'&{key}={value}'
+    try:
+        r = requests.get(f'{url}/findByNutrients?apiKey={api_key}&number=6&random=true{query}').json()
+        for index, item in enumerate(r):
+            titles.append(r[index]['title'])
+            ids.append(r[index]['id'])
+            if 'image' in r[index]:
+                images.append(r[index]['image'])
+            else:
+                images.append('image_not_found')
+        items = list(zip(titles, images, ids))
+        return Response(items)
+    except Exception as e:
+        return Response({'error': 'Failed to fetch data'}, status=500)
 
 
 
