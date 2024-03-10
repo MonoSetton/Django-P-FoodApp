@@ -2,20 +2,23 @@ from django.shortcuts import render, redirect
 from .forms import InsertIngredients, IngredientFormSet, StepFormSet, StepForm, IngredientForm, RecipeForm
 import requests
 from django.contrib.auth.decorators import login_required
-from .models import Nutrient, ForeignAPI, CustomRecipe, Ingredient, Step
+from .models import Nutrient, CustomRecipe, Ingredient, Step
 from django.core.exceptions import BadRequest
 from django.forms import inlineformset_factory
+from dotenv import load_dotenv
+from django.conf import settings
+import os
 
+load_dotenv(os.path.join(settings.BASE_DIR, ".env"))
 
-spoonacular = ForeignAPI.objects.get(name='Spoonacular')
-api_key = spoonacular.API_key
-url = spoonacular.url
+api_key = os.getenv("api_key")
+url = os.getenv("api_url")
 
 
 @login_required(login_url='/login')
 def home(request):
     titles, images, ids, readyInMinutes, servings = [], [], [], [], []
-    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=6').json()
+    r = requests.get(f'{url}/random?apiKey={api_key}&number=6').json()
     r = r['recipes']
     for index, item in enumerate(r):
         titles.append(r[index]['title'])

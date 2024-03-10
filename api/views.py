@@ -1,13 +1,16 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import NutrientSerializer
-from recipes.models import Nutrient, ForeignAPI
+from recipes.models import Nutrient
 import requests
+from dotenv import load_dotenv
+from django.conf import settings
+import os
 
+load_dotenv(os.path.join(settings.BASE_DIR, ".env"))
 
-spoonacular = ForeignAPI.objects.get(name='Spoonacular')
-api_key = spoonacular.API_key
-url = spoonacular.url
+api_key = os.getenv("api_key")
+url = os.getenv("api_url")
 
 
 @api_view(['GET'])
@@ -31,7 +34,7 @@ def nutrients_list(request):
 @api_view(['GET'])
 def recipes_random(request):
     titles, images, ids, readyInMinutes, servings = [], [], [], [], []
-    r = requests.get(f'{url}/random?apiKey={api_key}&tags=lunch&number=6').json()
+    r = requests.get(f'{url}/random?apiKey={api_key}&number=6').json()
     r = r['recipes']
     for index, item in enumerate(r):
         titles.append(r[index]['title'])
