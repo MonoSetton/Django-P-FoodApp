@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from .views import api_overview, nutrients_list, recipes_random, recipes_ingredients, recipes_requirements
-from recipes.models import Nutrient
 import json
 from unittest.mock import patch, Mock
 
