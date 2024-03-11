@@ -21,8 +21,7 @@ class APITestCase(TestCase):
 
     def test_api_call_status(self):
         r = requests.get(f'{self.api_url}/random?apiKey={self.api_key}&number=1').json()
-        if 'code' in r:
-            self.fail(msg=f"Status: {r['code']}, Message: {r['message']}")
+        self.assertIn('code', r, msg=f"Status: {r['code']}, Message: {r['message']}")
 
 
 
