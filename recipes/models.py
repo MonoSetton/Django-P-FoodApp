@@ -9,15 +9,6 @@ class Nutrient(models.Model):
         return self.name
 
 
-class ForeignAPI(models.Model):
-    name = models.CharField(max_length=50, default='API Name')
-    API_key = models.CharField(max_length=150)
-    url = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.name
-
-
 class CustomRecipe(models.Model):
     name = models.CharField(max_length=150)
     image = models.ImageField(null=True, blank=True, upload_to='recipe_images')
