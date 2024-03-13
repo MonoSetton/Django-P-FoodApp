@@ -28,7 +28,7 @@ class ViewsTestCase(TestCase):
         self.custom_recipe2 = CustomRecipe.objects.create(author=self.user, name='Recipe 2', image='Image2.png')
 
     def test_profile(self):
-        login = self.client.login(username='testuser', password='password123')
+        self.client.login(username='testuser', password='password123')
         resp = self.client.get(self.profile_url)
 
         self.assertEqual(resp.status_code, 200)

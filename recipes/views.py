@@ -56,7 +56,6 @@ def custom_recipes(request):
         recipe_form = RecipeForm(request.POST, request.FILES)
         ingredient_formset = IngredientFormSet(request.POST, prefix='ingredient')
         step_formset = StepFormSet(request.POST, prefix='step')
-
         if recipe_form.is_valid() and ingredient_formset.is_valid() and step_formset.is_valid():
             recipe = recipe_form.save(commit=False)
             recipe.author = request.user
