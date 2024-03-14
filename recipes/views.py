@@ -104,29 +104,32 @@ def delete_custom_recipe(request, pk):
         raise BadRequest("You do not have permission to see this site")
 
 
+@login_required(login_url='/login')
 def update_custom_recipe(request, pk):
     recipe = CustomRecipe.objects.get(id=pk)
+    if request.user == recipe.author:
+        IngredientFormSet = inlineformset_factory(CustomRecipe, Ingredient, form=IngredientForm, extra=3, can_delete=True)
 
-    IngredientFormSet = inlineformset_factory(CustomRecipe, Ingredient, form=IngredientForm, extra=3, can_delete=True)
+        StepFormSet = inlineformset_factory(CustomRecipe, Step, form=StepForm, extra=3, can_delete=True)
 
-    StepFormSet = inlineformset_factory(CustomRecipe, Step, form=StepForm, extra=3, can_delete=True)
+        if request.method == 'POST':
+            recipe_form = RecipeForm(request.POST, request.FILES, instance=recipe)
+            ingredient_formset = IngredientFormSet(request.POST, instance=recipe, prefix='ingredient')
+            step_formset = StepFormSet(request.POST, instance=recipe, prefix='step')
 
-    if request.method == 'POST':
-        recipe_form = RecipeForm(request.POST, request.FILES, instance=recipe)
-        ingredient_formset = IngredientFormSet(request.POST, instance=recipe, prefix='ingredient')
-        step_formset = StepFormSet(request.POST, instance=recipe, prefix='step')
+            if recipe_form.is_valid() and ingredient_formset.is_valid() and step_formset.is_valid():
+                recipe_form.save()
+                ingredient_formset.save()
+                step_formset.save()
+                return redirect('detail_custom_recipe', pk=pk)
+        else:
+            recipe_form = RecipeForm(instance=recipe)
+            ingredient_formset = IngredientFormSet(instance=recipe, prefix='ingredient')
+            step_formset = StepFormSet(instance=recipe, prefix='step')
 
-        if recipe_form.is_valid() and ingredient_formset.is_valid() and step_formset.is_valid():
-            recipe_form.save()
-            ingredient_formset.save()
-            step_formset.save()
-            return redirect('detail_custom_recipe', pk=pk)
+        context = {
+            'recipe': recipe, 'recipe_form': recipe_form, 'ingredient_formset': ingredient_formset, 'step_formset': step_formset,
+        }
+        return render(request, 'recipes/update_custom_recipe.html', context)
     else:
-        recipe_form = RecipeForm(instance=recipe)
-        ingredient_formset = IngredientFormSet(instance=recipe, prefix='ingredient')
-        step_formset = StepFormSet(instance=recipe, prefix='step')
-
-    context = {
-        'recipe': recipe, 'recipe_form': recipe_form, 'ingredient_formset': ingredient_formset, 'step_formset': step_formset,
-    }
-    return render(request, 'recipes/update_custom_recipe.html', context)
+        return redirect('/profile')

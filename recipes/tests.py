@@ -139,6 +139,102 @@ class RecipeViewTests(TestCase):
 
     def test_custom_recipes_POST_valid_data(self):
         self.client.login(username='testuser', password='12345')
+        recipe_form_data = {
+            'name': 'Test Recipe',
+            'image': '',
+        }
+
+        ingredient_form_data = {
+            'ingredient-TOTAL_FORMS': 6,
+            'ingredient-INITIAL_FORMS': 0,
+            'ingredient-MIN_NUM_FORMS': 1,
+            'ingredient-MAX_NUM_FORMS': 1000,
+            'ingredient-0-id': '',
+            'ingredient-0-recipe': '',
+            'ingredient-0-name': 'Ingredient 1',
+        }
+
+        step_form_data = {
+            'step-TOTAL_FORMS': 8,
+            'step-INITIAL_FORMS': 0,
+            'step-MIN_NUM_FORMS': 1,
+            'step-MAX_NUM_FORMS': 1000,
+            'step-0-id': '',
+            'step-0-recipe': '',
+            'step-0-body': 'Step 1',
+        }
+
+        response = self.client.post(reverse('custom_recipes'), data={
+            **recipe_form_data,
+            **ingredient_form_data,
+            **step_form_data
+        }, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(CustomRecipe.objects.filter(name='Test Recipe').exists())
+        self.assertTrue(Ingredient.objects.filter(name='Ingredient 1').exists())
+        self.assertTrue(Step.objects.filter(body='Step 1').exists())
+
+    def test_update_custom_recipe_POST_not_author(self):
+        self.client.login(username='testuser2', password='12345')
+        response = self.client.post(reverse('update_custom_recipe', args=[self.custom_recipe.id]), follow=True)
+
+        self.assertRedirects(response, '/profile/')
+
+    def test_update_custom_recipe_POST_valid_author(self):
+        self.client.login(username='testuser', password='12345')
+        recipe_form_data = {
+            'name': 'Test Recipe Updated',
+            'image': '',
+        }
+
+        ingredient_form_data = {
+            'ingredient-TOTAL_FORMS': 6,
+            'ingredient-INITIAL_FORMS': 0,
+            'ingredient-MIN_NUM_FORMS': 1,
+            'ingredient-MAX_NUM_FORMS': 1000,
+            'ingredient-0-id': '',
+            'ingredient-0-recipe': '',
+            'ingredient-0-name': 'Ingredient Updated',
+        }
+
+        step_form_data = {
+            'step-TOTAL_FORMS': 8,
+            'step-INITIAL_FORMS': 0,
+            'step-MIN_NUM_FORMS': 1,
+            'step-MAX_NUM_FORMS': 1000,
+            'step-0-id': '',
+            'step-0-recipe': '',
+            'step-0-body': 'Step Updated',
+        }
+
+        response = self.client.post(reverse('update_custom_recipe', args=[self.custom_recipe.id]),
+                                    data={**recipe_form_data,
+                                          **ingredient_form_data,
+                                          **step_form_data
+                                          }, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertFalse(CustomRecipe.objects.filter(name='Test Recipe').exists())
+        self.assertFalse(Ingredient.objects.filter(name='Ingredient 1').exists())
+        self.assertFalse(Step.objects.filter(body='Step 1').exists())
+
+        self.assertTrue(CustomRecipe.objects.filter(name='Test Recipe Updated').exists())
+        self.assertTrue(Ingredient.objects.filter(name='Ingredient Updated').exists())
+        self.assertTrue(Step.objects.filter(body='Step Updated').exists())
+
+    def test_update_custom_recipe_GET_valid_author(self):
+        self.client.login(username='testuser', password='12345')
+        response = self.client.get(reverse('update_custom_recipe', args=[self.custom_recipe.id]), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertIn('recipe', response.context)
+        self.assertIn('recipe_form', response.context)
+        self.assertIn('ingredient_formset', response.context)
+
+
 
     def test_custom_recipes_GET(self):
         self.client.login(username='testuser', password='12345')
@@ -171,6 +267,9 @@ class RecipeViewTests(TestCase):
         response = self.client.get(reverse('delete_custom_recipe', args=[self.custom_recipe.id]), follow=True)
 
         self.assertEqual(response.status_code, 400)
+
+
+
 
 
 
