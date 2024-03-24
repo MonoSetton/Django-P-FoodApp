@@ -4,7 +4,6 @@ from django.conf import settings
 from .models import CustomRecipe, Ingredient, Step, Nutrient
 from .views import home, detail_recipes, requirements_recipes, custom_recipes, detail_custom_recipe, delete_custom_recipe, update_custom_recipe
 from django.contrib.auth.models import User
-from .forms import RecipeForm, IngredientFormSet, StepFormSet
 from django.urls import reverse, resolve
 from unittest.mock import MagicMock, patch
 import requests
@@ -137,7 +136,7 @@ class RecipeViewTests(TestCase):
         self.assertContains(response, self.ingredient)
         self.assertContains(response, self.step)
 
-    def test_custom_recipes_POST_valid_data(self):
+    def test_custom_recipes_post_valid_data(self):
         self.client.login(username='testuser', password='12345')
         recipe_form_data = {
             'name': 'Test Recipe',
@@ -175,13 +174,13 @@ class RecipeViewTests(TestCase):
         self.assertTrue(Ingredient.objects.filter(name='Ingredient 1').exists())
         self.assertTrue(Step.objects.filter(body='Step 1').exists())
 
-    def test_update_custom_recipe_POST_not_author(self):
+    def test_update_custom_recipe_post_not_author(self):
         self.client.login(username='testuser2', password='12345')
         response = self.client.post(reverse('update_custom_recipe', args=[self.custom_recipe.id]), follow=True)
 
         self.assertRedirects(response, '/profile/')
 
-    def test_update_custom_recipe_POST_valid_author(self):
+    def test_update_custom_recipe_post_valid_author(self):
         self.client.login(username='testuser', password='12345')
         recipe_form_data = {
             'name': 'Test Recipe Updated',
@@ -224,7 +223,7 @@ class RecipeViewTests(TestCase):
         self.assertTrue(Ingredient.objects.filter(name='Ingredient Updated').exists())
         self.assertTrue(Step.objects.filter(body='Step Updated').exists())
 
-    def test_update_custom_recipe_GET_valid_author(self):
+    def test_update_custom_recipe_post_invalid_author(self):
         self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('update_custom_recipe', args=[self.custom_recipe.id]), follow=True)
 
@@ -234,9 +233,7 @@ class RecipeViewTests(TestCase):
         self.assertIn('recipe_form', response.context)
         self.assertIn('ingredient_formset', response.context)
 
-
-
-    def test_custom_recipes_GET(self):
+    def test_custom_recipes_get(self):
         self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('custom_recipes'), follow=True)
 

@@ -35,7 +35,7 @@ class ViewsTestCase(TestCase):
         self.assertEqual(self.custom_recipe1, resp.context['custom_recipes'][0])
         self.assertEqual(self.custom_recipe2, resp.context['custom_recipes'][1])
 
-    def test_signup_POST(self):
+    def test_signup_post(self):
         data = {
             'username': 'signuptestuser',
             'email': 'test@example.com',
@@ -49,7 +49,7 @@ class ViewsTestCase(TestCase):
         user = authenticate(username='signuptestuser', password='TestPassword123')
         self.assertTrue(user.is_authenticated)
 
-    def test_signup_POST_invalid_form(self):
+    def test_signup_post_invalid_form(self):
         data = {
             'username': '',
             'email': 'test@example.com',
@@ -60,7 +60,7 @@ class ViewsTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertFalse(User.objects.filter(username='').exists())
 
-    def test_signup_GET(self):
+    def test_signup_get(self):
         resp = self.client.get(self.sign_up_url)
         self.assertEqual(resp.status_code, 200)
         self.assertIsInstance(resp.context['form'], RegisterForm)
