@@ -1,4 +1,4 @@
-Hosted here ----> https://foodapp-production-11037.up.railway.app
+Hosted here ----> https://foodapp-11037.up.railway.app
 
 # **Recipe Finder**
 ## **Overview**
